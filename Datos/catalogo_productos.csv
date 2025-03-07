@@ -1,0 +1,136 @@
+id_producto,categoria,subcategoria,tamaño,premium,marca_exclusiva,estacional,nit_proveedor
+1,bebidas,Agua,Mediano,0.0,1,0,890900667
+2,jabones,Antibacterial,Pequeño,,0,0,890900667
+3,bebidas,Gaseosa,Pequeño,0.0,1,0,890900667
+4,congelados,Vegetales,Pequeño,0.0,1,1,890900667
+5,shampoos,Acondicionador,Pequeño,0.0,1,0,890900667
+6,bebidas,Cerveza Internacional,Pequeño,0.0,0,0,890900667
+7,panaderia_y_panificados,Otros,Pequeño,0.0,1,0,890900667
+8,carnes_y_aves,Res,Pequeño,0.0,0,0,890900667
+9,productos_enlatados_y_alimentos_envasados,N/A,Mediano,0.0,1,0,890900667
+10,carnes_y_aves,Pollo,Pequeño,0.0,0,0,890900667
+11,bebidas,Vinos,Pequeño,0.0,0,0,890900667
+12,bebidas,Licor Nacional,Pequeño,0.0,0,0,890900667
+13,aseo,,Pequeño,0.0,1,0,890900667
+14,bebidas,Gaseosa,Pequeño,0.0,1,0,890900667
+15,cereales_y_productos_secos,Arroz,Pequeño,0.0,1,1,890900667
+16,productos_lacteos,Leche,Mediano,,0,0,890900667
+17,productos_lacteos,Crema,Pequeño,0.0,1,0,890900667
+18,productos_lacteos,Crema,Pequeño,0.0,0,0,890900667
+19,bebidas,Gaseosa,Pequeño,0.0,0,0,890900667
+20,bebidas,Gaseosa,Pequeño,1.0,1,0,890900667
+21,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,890900667
+22,bebidas,Cerveza Nacional,Pequeño,0.0,0,0,890900667
+23,productos_lacteos,Yogur,,0.0,1,0,890900667
+24,productos_lacteos,Leche,Pequeño,0.0,1,0,890900667
+25,shampoos,Acondicionador,Pequeño,0.0,1,0,890900667
+26,cereales_y_productos_secos,Arroz,Pequeño,0.0,0,0,890900667
+27,productos_lacteos,Queso,Pequeño,0.0,0,0,890900667
+28,bebidas,Cerveza Nacional,Pequeño,0.0,0,0,890900667
+29,frutas_y_verduras,Enlatadas,Mediano,0.0,1,0,890900667
+30,cereales_y_productos_secos,Arroz,Pequeño,0.0,1,0,890900667
+31,carnes_y_aves,Pavo,,0.0,0,0,890900667
+32,shampoos,Acondicionador,Pequeño,0.0,0,0,890900667
+33,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,1,1,890900667
+34,carnes_y_aves,Res,Pequeño,0.0,1,0,890900667
+35,bebidas,Agua,Pequeño,0.0,0,0,890900667
+36,productos_lacteos,Queso,Mediano,1.0,1,0,890900667
+37,shampoos,Acondicionador,Mediano,0.0,0,0,890900667
+38,carnes_y_aves,Cerdo,Pequeño,0.0,1,0,890900667
+39,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,1,0,890900667
+40,bebidas,Agua,Pequeño,0.0,1,0,890900667
+41,cereales_y_productos_secos,Legumbres,Pequeño,0.0,1,1,890900667
+42,aseo,Limpieza general,Pequeño,0.0,1,0,890900667
+43,panaderia_y_panificados,Integral,Pequeño,0.0,0,0,890900667
+44,bebidas,,Pequeño,0.0,0,0,890900667
+45,productos_lacteos,,Pequeño,0.0,1,0,890900667
+46,bebidas,Licor Nacional,Mediano,0.0,1,0,890900667
+47,cereales_y_productos_secos,Frutos secos,Pequeño,0.0,1,0,890900667
+48,shampoos,Hidratante,Grande,0.0,1,0,890900667
+49,bebidas,Agua,Grande,0.0,0,0,890900667
+50,bebidas,Vinos,Pequeño,0.0,1,0,890900667
+51,productos_lacteos,Crema,Pequeño,0.0,0,1,890900667
+52,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,1,0,890900667
+53,bebidas,Gaseosa,Mediano,0.0,0,0,890900667
+54,carnes_y_aves,Pollo,Pequeño,0.0,1,0,890900667
+55,cereales_y_productos_secos,Pasta,Pequeño,0.0,1,0,890900667
+56,productos_enlatados_y_alimentos_envasados,N/A,Mediano,0.0,0,0,890900667
+57,frutas_y_verduras,,Pequeño,1.0,1,0,890900667
+58,bebidas,Vinos,Mediano,0.0,0,1,890900667
+59,shampoos,Acondicionador,Pequeño,0.0,1,0,890900667
+60,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,nan
+61,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,890900667
+62,shampoos,,Pequeño,0.0,1,0,890900667
+63,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,890900667
+64,bebidas,Cerveza Internacional,Pequeño,0.0,1,0,890900667
+65,bebidas,Vinos,Pequeño,0.0,1,0,890900667
+66,bebidas,Gaseosa,Pequeño,0.0,0,0,890900667
+67,bebidas,Licor Nacional,Pequeño,0.0,1,0,890900667
+68,productos_lacteos,Yogur,Pequeño,0.0,0,0,890900667
+69,bebidas,Gaseosa,Pequeño,0.0,1,1,890900667
+70,productos_lacteos,Queso,Pequeño,0.0,0,0,890900667
+71,bebidas,Cerveza Nacional,Pequeño,0.0,0,0,890900667
+72,carnes_y_aves,Cerdo,Mediano,1.0,0,0,890900667
+73,carnes_y_aves,Pollo,Mediano,0.0,1,0,890900667
+74,carnes_y_aves,Res,Pequeño,1.0,1,0,890900667
+75,productos_lacteos,Queso,Pequeño,0.0,1,0,890900667
+76,bebidas,,Mediano,0.0,1,0,890900667
+77,carnes_y_aves,Res,Pequeño,0.0,0,0,890900667
+78,bebidas,Agua,Pequeño,0.0,0,0,890900667
+79,productos_lacteos,,Pequeño,1.0,1,0,890900667
+80,productos_lacteos,Leche,Pequeño,0.0,0,0,890900667
+81,bebidas,Agua,Pequeño,0.0,0,0,890900667
+82,productos_lacteos,Queso,Grande,0.0,0,0,890900667
+83,productos_enlatados_y_alimentos_envasados,N/A,Grande,0.0,0,0,890900667
+84,shampoos,Hidratante,Pequeño,0.0,1,0,890900667
+85,carnes_y_aves,Pavo,Pequeño,0.0,1,0,890900667
+86,bebidas,Cerveza Internacional,,,1,1,890900667
+87,bebidas,Agua,Pequeño,0.0,1,0,890900667
+88,cereales_y_productos_secos,Pasta,Pequeño,0.0,0,0,890900667
+89,frutas_y_verduras,Enlatadas,Pequeño,0.0,1,0,890900667
+90,bebidas,Vinos,Pequeño,0.0,1,1,890900667
+91,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,1,0,890900667
+92,aseo,Cuidado personal,Pequeño,0.0,0,0,890900667
+93,bebidas,Cerveza Internacional,Pequeño,0.0,0,0,890900667
+94,aseo,Cuidado personal,Pequeño,1.0,1,0,890900667
+95,carnes_y_aves,Res,Mediano,0.0,0,0,890900667
+96,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,890900667
+97,carnes_y_aves,Pavo,Pequeño,0.0,0,0,890900667
+98,shampoos,Hidratante,Pequeño,0.0,1,0,890900667
+99,bebidas,Agua,Mediano,0.0,1,0,890900667
+100,carnes_y_aves,Pollo,Grande,0.0,0,1,890900667
+101,bebidas,Gaseosa,Pequeño,1.0,1,0,890900667
+102,cereales_y_productos_secos,Arroz,Pequeño,0.0,1,0,890900667
+103,cereales_y_productos_secos,Frutos secos,Pequeño,0.0,0,0,890900667
+104,congelados,Vegetales,Pequeño,0.0,1,1,890900667
+105,cereales_y_productos_secos,Legumbres,Pequeño,0.0,1,0,890900667
+106,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,1.0,1,0,890900667
+107,productos_lacteos,Leche,Pequeño,0.0,1,0,890900667
+108,bebidas,Gaseosa,Mediano,0.0,0,0,890900667
+109,panaderia_y_panificados,,Mediano,0.0,1,0,890900667
+110,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,890900667
+111,cereales_y_productos_secos,Legumbres,Pequeño,0.0,1,0,890900667
+112,congelados,,Grande,0.0,1,0,890900667
+113,bebidas,Cerveza Nacional,Pequeño,0.0,0,0,890900667
+114,productos_lacteos,Leche,Pequeño,0.0,1,0,890900667
+115,productos_lacteos,Leche,Mediano,0.0,1,0,890900667
+116,congelados,Helados,Pequeño,0.0,0,0,890900667
+117,carnes_y_aves,Pollo,Grande,0.0,0,0,890900667
+118,carnes_y_aves,,Pequeño,0.0,0,1,890900667
+119,carnes_y_aves,Res,Pequeño,0.0,1,0,890900667
+120,bebidas,,Pequeño,0.0,1,1,890900667
+121,frutas_y_verduras,Frescas,Mediano,0.0,1,0,890900667
+122,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,1,0,890900667
+123,carnes_y_aves,Pollo,Pequeño,,0,0,890900667
+124,carnes_y_aves,Pollo,Pequeño,,1,0,890900667
+125,bebidas,Licor Nacional,Pequeño,0.0,0,0,890900667
+126,carnes_y_aves,Res,Pequeño,0.0,0,0,890900667
+127,productos_enlatados_y_alimentos_envasados,N/A,Mediano,0.0,1,0,890900667
+128,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,890900667
+129,bebidas,Vinos,Pequeño,0.0,1,0,890900667
+130,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,1.0,1,0,890900667
+131,bebidas,Vinos,Pequeño,0.0,0,0,890900667
+132,aseo,Cuidado personal,Pequeño,0.0,1,0,890900667
+133,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,0,0,890900667
+134,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,1,0,890900667
+135,productos_enlatados_y_alimentos_envasados,N/A,Pequeño,0.0,1,0,890900667
