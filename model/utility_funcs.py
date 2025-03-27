@@ -8,7 +8,6 @@ from scipy.stats import levene
 
 import matplotlib.pyplot as plt
 
-import joblib
 
 def create_exog_cols_from_date_series(y, event_date=None, event_name=None):
     # Crea variables exogenas a partir de la columna de las fechas
@@ -47,7 +46,14 @@ def create_exog_cols_from_date_series(y, event_date=None, event_name=None):
         y_flg_event_name = np.array(len(y)*[False])
     final_array.append(y_flg_event_name)
     
-    return np.array(final_array)
+    exog_var_names = ['es_fin_de_semana', 'is_feb_29'
+                      , 'mes_sin', 'mes_cos', 'dia_sin', 'dia_cos'
+                      , 'dia_de_semana_sin', 'dia_de_semana_cos'
+                      , 'flg_despues_' + event_name
+                      ]
+    dict_exog_vars = {exog_var_names[i]: final_array[i] for i in range(len(final_array))}
+    
+    return dict_exog_vars
 
 
 #------------------------------------------------------------------------------
@@ -156,20 +162,25 @@ def get_STL_series_decomposition(df, y_col, date_col, seasonal, flg_plot=True):
     return descomposicion
 
 #------------------------------------------------------------------------------
-# CLASE
-class ForecastModelWithExogenous:
-    def __init__(self, model):
-        self.model = model
-        self.min_train_date = None
-        self.max_train_date = None
+def generate_exogenous(initial_date, steps):
+        """Genera las variables exógenas necesarias a partir de las fechas
+        Args:
+            - initial_date (str): string de fecha desde la cual se haran las predicciones
+            - steps (int): cantidad de dias posteriores a la ultima fecha de entrenamioento usada en el train
+        Returns:
+            dataframe con variables exogenas para test
+        """
+        fecha_inicial = pd.to_datetime(initial_date)
 
-    def generate_exogenous(self, dates):
-        """Genera las variables exógenas necesarias a partir de las fechas"""
-        dates = pd.to_datetime(dates)
-        exogenous_vars = create_exog_cols_from_date_series(dates, event_date='2021-07-02', event_name='llegada_competencia')
-        return exogenous_vars
-    
-    def forecast(self, steps, exogenous_dates):
-        """Genera las predicciones utilizando variables exógenas"""
-        exogenous_vars = self.generate_exogenous(exogenous_dates)
-        return self.model.forecast(steps=steps, exog=exogenous_vars)
+        # Generar la serie de fechas
+        serie_fechas = pd.date_range(start=fecha_inicial, 
+                                    end=fecha_inicial + pd.Timedelta(days=steps), 
+                                    freq='D')
+
+        # Convertir a pandas Series
+        test_dates = pd.Series(serie_fechas)
+
+        test_exog_df = create_exog_cols_from_date_series(test_dates
+                                                           , event_date='2021-07-02'
+                                                           , event_name='llegada_competencia')
+        return test_exog_df
