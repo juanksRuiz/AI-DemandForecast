@@ -18,6 +18,6 @@ def home():
             }
 
 @app.post("/forecast", response_model=PredictionOut)
-def forecast(payload: PredictionOut):
-    predictions = predict(payload.predictions)
+def forecast(payload: StepsIn):
+    predictions = predict(payload.steps)
     return {"predictions": predictions}
