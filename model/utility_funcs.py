@@ -6,7 +6,13 @@ from statsmodels.tsa.seasonal import STL
 from statsmodels.tsa.stattools import adfuller
 from scipy.stats import levene
 
+from sklearn.linear_model import LinearRegression
+
 import matplotlib.pyplot as plt
+import os
+import pickle
+
+import copy
 
 
 def create_exog_cols_from_date_series(y, event_date=None, event_name=None):
@@ -184,3 +190,90 @@ def generate_exogenous(initial_date, steps):
                                                            , event_date='2021-07-02'
                                                            , event_name='llegada_competencia')
         return test_exog_df
+
+#------------------------------------------------------------------------------
+def rolling_slope(series, window=14):
+    slopes = []
+    for i in range(len(series)):
+        if i < window:
+            slopes.append(np.nan)
+        else:
+            y = series[i-window:i].values.reshape(-1, 1)
+            x = np.arange(window).reshape(-1, 1)
+            reg = LinearRegression().fit(x, y)
+            slopes.append(reg.coef_[0][0])
+    return slopes
+#------------------------------------------------------------------------------
+def get_XGBoost_features(y_var):
+    """
+    Calcula las variables necesarias (lags y tendencia) a partir de la variable objetivo.
+    Pensado para predicción recursiva con XGBoost.
+    """
+    y_var_copy = copy.copy(y_var)
+    df = pd.DataFrame({'demanda': y_var_copy})
+
+    # Preprocesamiento
+    df['demanda'].ffill(inplace=True)
+    df['demanda'].bfill(inplace=True)
+
+    # Lags
+    df['demanda_lag_1'] = df['demanda'].shift(1)
+    df['demanda_lag_2'] = df['demanda'].shift(2)
+
+    # Tendencia y pendiente
+    df['rolling_mean_7'] = df['demanda'].shift(1).rolling(window=7).mean()
+    df['rolling_trend'] = df['demanda'].shift(1) - df['rolling_mean_7']
+    df.drop(columns=['rolling_mean_7'], inplace=True)
+
+    df['rolling_slope_14'] = rolling_slope(df['demanda'], window=14)
+
+    # Eliminar las filas con NaN para evitar errores
+    df.dropna(inplace=True)
+
+    return df
+
+#------------------------------------------------------------------------------
+def forecast_xgboost(target_var, steps, N_train):
+    """
+    Realiza forecast (predicción recursiva) con un modelo XGBoost.
+
+    Args:
+        target_var (list or array): Serie histórica de la variable objetivo (ej. ventas).
+        steps (int): Número de pasos (días) a predecir.
+        N_train (int): Tamaño de la ventana de datos históricos.
+
+    Returns:
+        list: Predicciones para los próximos 'steps' días.
+    """
+    assert N_train < len(target_var), "ERROR: la ventana de entrenamiento excede la longitud de la serie"
+
+    # 1. Cargar modelo XGBoost previamente entrenado
+    ruta_modelo = os.path.join('.', 'xgboost_demand_forecast_with_exogenous-0.1.0.pkl')
+    with open(ruta_modelo, 'rb') as file:
+        trained_xgboost = pickle.load(file)
+
+    # 2. Inicializar lista de predicciones y variable temporal de la serie
+    predictions = []
+    temp_target_var = target_var.copy()  # Evita modificar el original
+
+    # 3. Predicción paso a paso
+    for step in range(steps):
+        # 3.1 Tomar la ventana más reciente
+        current_window = temp_target_var[-N_train:]
+
+        # 3.2 Generar features para ese punto
+        X_test = get_XGBoost_features(current_window)
+
+        # 3.3 Tomar solo la última fila (simula día actual)
+        X_test_last = X_test.iloc[[-1]]
+
+        # 3.4 Predecir valor futuro
+        y_pred = trained_xgboost.predict(X_test_last)[0]
+
+        # 3.5 Guardar la predicción
+        predictions.append(y_pred)
+
+        # 3.6 Añadir la predicción al conjunto para usar como lag en próximos pasos
+        temp_target_var = np.append(temp_target_var, y_pred)
+
+    return predictions
