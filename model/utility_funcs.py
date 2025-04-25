@@ -5,6 +5,7 @@ import pandas as pd
 from statsmodels.tsa.seasonal import STL
 from statsmodels.tsa.stattools import adfuller
 from scipy.stats import levene
+import xgboost as xgb
 
 from sklearn.linear_model import LinearRegression
 
@@ -209,31 +210,63 @@ def get_XGBoost_features(y_var):
     Calcula las variables necesarias (lags y tendencia) a partir de la variable objetivo.
     Pensado para predicción recursiva con XGBoost.
     """
+    # Copiar la variable para evitar modificar el original
     y_var_copy = copy.copy(y_var)
     df = pd.DataFrame({'demanda': y_var_copy})
 
-    # Preprocesamiento
+    # Validar tipo de datos inicial
+    #print("Tipo inicial de 'demanda':", df['demanda'].dtype)
+
+    # Convertir 'demanda' a tipo numérico
+    df['demanda'] = pd.to_numeric(df['demanda'], errors='coerce')
+
+    # Validar después de la conversión
+    #print("Tipo después de convertir 'demanda':", df['demanda'].dtype)
+    #print("Valores únicos de 'demanda':", df['demanda'].unique())
+
+    # Manejo de valores faltantes
     df['demanda'].ffill(inplace=True)
     df['demanda'].bfill(inplace=True)
+
+    # Validar después de manejar valores faltantes
+    #print("Número de valores NaN después de ffill y bfill:", df['demanda'].isna().sum())
 
     # Lags
     df['demanda_lag_1'] = df['demanda'].shift(1)
     df['demanda_lag_2'] = df['demanda'].shift(2)
 
+    # Validar lags
+    #print("Primeras filas con lags:\n", df[['demanda', 'demanda_lag_1', 'demanda_lag_2']].head())
+
     # Tendencia y pendiente
     df['rolling_mean_7'] = df['demanda'].shift(1).rolling(window=7).mean()
+
+    # Validar media móvil
+    #print("Primeras filas con rolling_mean_7:\n", df[['demanda', 'rolling_mean_7']].head(10))
+
     df['rolling_trend'] = df['demanda'].shift(1) - df['rolling_mean_7']
     df.drop(columns=['rolling_mean_7'], inplace=True)
 
+    # Validar rolling_trend
+    #print("Primeras filas con rolling_trend:\n", df[['demanda', 'rolling_trend']].head(10))
+
+    # Pendiente (rolling slope)
     df['rolling_slope_14'] = rolling_slope(df['demanda'], window=14)
+
+    # Validar rolling_slope_14
+    #print("Primeras filas con rolling_slope_14:\n", df[['demanda', 'rolling_slope_14']].head(10))
 
     # Eliminar las filas con NaN para evitar errores
     df.dropna(inplace=True)
 
-    return df
+    # Validar datos finales
+    #print("Datos finales después de eliminar NaN:\n", df.head())
+
+    # Devuelve el DataFrame procesado y el índice sincronizado
+    return df, df.index
 
 #------------------------------------------------------------------------------
-def forecast_xgboost(target_var, steps, N_train):
+def forecast_xgboost(target_var, steps, N_train=None, exog_vars=False, exog_start_date=None):
     """
     Realiza forecast (predicción recursiva) con un modelo XGBoost.
 
@@ -241,39 +274,75 @@ def forecast_xgboost(target_var, steps, N_train):
         target_var (list or array): Serie histórica de la variable objetivo (ej. ventas).
         steps (int): Número de pasos (días) a predecir.
         N_train (int): Tamaño de la ventana de datos históricos.
-
+        exog_vars (bool): True si se quiere predecir con variables exogenas autogeneradas, False de lo contrario
+        exog_start_date (str): fecha inicial para generar variables exogenas de fechas, obligatoria si exog_vars = True
     Returns:
         list: Predicciones para los próximos 'steps' días.
     """
-    assert N_train < len(target_var), "ERROR: la ventana de entrenamiento excede la longitud de la serie"
+    
+    if N_train is not None:
+        assert N_train <= len(target_var), "ERROR: la ventana de entrenamiento excede la longitud de la serie"
+    else:
+        N_train = len(target_var)
 
-    # 1. Cargar modelo XGBoost previamente entrenado
-    ruta_modelo = os.path.join('.', 'xgboost_demand_forecast_with_exogenous-0.1.0.pkl')
-    with open(ruta_modelo, 'rb') as file:
-        trained_xgboost = pickle.load(file)
+    if exog_vars:
+        assert exog_start_date is not None, 'ERROR: Falta indicar la fecha inicial para variables exogenas'
+        exog_df = generate_exogenous(exog_start_date, len(target_var) + steps)
+    else:
+        exog_df = pd.DataFrame()
+    # 1. Crear modelo xgboost
+    reg = reg = xgb.XGBRegressor(
+        n_estimators=500,
+        max_depth=4,
+        learning_rate=0.05,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        reg_alpha=1,
+        reg_lambda=1
+    )
+    
+    # Opcional:
+    #integrar modulo de cross validation para que determine mejores parametros
+    # y regularizacion
 
-    # 2. Inicializar lista de predicciones y variable temporal de la serie
+    # 2. Entrenar modelo generando training features
+    # Generar features
+    X_train, indices = get_XGBoost_features(target_var)
+
+    # Sincronizar target_var con X_train y crear variable temporal de la serie
+    temp_target_var = list(target_var.loc[indices].copy())  # Evita modificar el original
+    
+    # Creacion de variables de entrenamiento finales
+    final_X_train = pd.concat([X_train, exog_df], axis=1)
+
+    reg.fit(pd.concat([X_train[-N_train:], exog_df[:N_train]]), temp_target_var[-N_train:], verbose=False)
+
+
+    # 3. Inicializar lista de predicciones
     predictions = []
-    temp_target_var = target_var.copy()  # Evita modificar el original
 
-    # 3. Predicción paso a paso
+
+    # 4. Predicción paso a paso
     for step in range(steps):
-        # 3.1 Tomar la ventana más reciente
-        current_window = temp_target_var[-N_train:]
+        if step == 0:
+            X_test_last = final_X_train.iloc[[-1]]
+        else:
+            # 4.1 Tomar la ventana más reciente
+            current_window = temp_target_var[-N_train:]
 
-        # 3.2 Generar features para ese punto
-        X_test = get_XGBoost_features(current_window)
+            # 4.2 Generar features de prediccion para ultimo punto - Esto se hace en el punto 2 para el primer step
+            X_test, indices = get_XGBoost_features(current_window)
 
-        # 3.3 Tomar solo la última fila (simula día actual)
-        X_test_last = X_test.iloc[[-1]]
+            # 4.3 Tomar solo la última fila (simula día actual)
+            X_test_last = X_test.iloc[[-1]]
 
-        # 3.4 Predecir valor futuro
-        y_pred = trained_xgboost.predict(X_test_last)[0]
+        # 4.4 Predecir valor futuro
+        y_pred = reg.predict(X_test_last)[0]
 
-        # 3.5 Guardar la predicción
+        # 4.5 Guardar la predicción
         predictions.append(y_pred)
 
-        # 3.6 Añadir la predicción al conjunto para usar como lag en próximos pasos
-        temp_target_var = np.append(temp_target_var, y_pred)
+        # 4.6 Añadir la predicción al conjunto para usar como lag en próximos pasos
+        temp_target_var.append(y_pred)
 
     return predictions
