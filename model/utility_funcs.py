@@ -266,7 +266,7 @@ def get_XGBoost_features(y_var):
     return df, df.index
 
 #------------------------------------------------------------------------------
-def forecast_xgboost(target_var, steps, N_train=None, exog_vars=False, exog_start_date=None):
+def forecast_xgboost(target_var, steps, exog_vars, N_train=None):
     """
     Realiza forecast (predicción recursiva) con un modelo XGBoost.
 
@@ -274,8 +274,7 @@ def forecast_xgboost(target_var, steps, N_train=None, exog_vars=False, exog_star
         target_var (list or array): Serie histórica de la variable objetivo (ej. ventas).
         steps (int): Número de pasos (días) a predecir.
         N_train (int): Tamaño de la ventana de datos históricos.
-        exog_vars (bool): True si se quiere predecir con variables exogenas autogeneradas, False de lo contrario
-        exog_start_date (str): fecha inicial para generar variables exogenas de fechas, obligatoria si exog_vars = True
+        exog_vars (tuple): Tupla de datos de entrenamiento y prueba de variables exogenas
     Returns:
         list: Predicciones para los próximos 'steps' días.
     """
@@ -285,11 +284,6 @@ def forecast_xgboost(target_var, steps, N_train=None, exog_vars=False, exog_star
     else:
         N_train = len(target_var)
 
-    if exog_vars:
-        assert exog_start_date is not None, 'ERROR: Falta indicar la fecha inicial para variables exogenas'
-        exog_df = generate_exogenous(exog_start_date, len(target_var) + steps)
-    else:
-        exog_df = pd.DataFrame()
     # 1. Crear modelo xgboost
     reg = reg = xgb.XGBRegressor(
         n_estimators=500,
@@ -312,37 +306,38 @@ def forecast_xgboost(target_var, steps, N_train=None, exog_vars=False, exog_star
     # Sincronizar target_var con X_train y crear variable temporal de la serie
     temp_target_var = list(target_var.loc[indices].copy())  # Evita modificar el original
     
-    # Creacion de variables de entrenamiento finales
-    final_X_train = pd.concat([X_train, exog_df], axis=1)
+    exog_vars_train_df, exog_vars_test_df = exog_vars
 
-    reg.fit(pd.concat([X_train[-N_train:], exog_df[:N_train]]), temp_target_var[-N_train:], verbose=False)
+    # Creacion de variables de entrenamiento finales
+    final_X_train = pd.concat([X_train, exog_vars_train_df], axis=1)
+    final_X_train = final_X_train.apply(lambda col: pd.to_numeric(col, errors='coerce') if col.dtype == 'object' else col)
+
+    # Entrenamiento usando la ventana final de N_train
+    reg.fit(final_X_train.iloc[-N_train:, :], temp_target_var[-N_train:], verbose=False)
 
 
     # 3. Inicializar lista de predicciones
     predictions = []
-
+    temp_window = temp_target_var[-N_train:]  # Inicia con la ventana de tamaño N_train
 
     # 4. Predicción paso a paso
     for step in range(steps):
-        if step == 0:
-            X_test_last = final_X_train.iloc[[-1]]
-        else:
-            # 4.1 Tomar la ventana más reciente
-            current_window = temp_target_var[-N_train:]
+        # 3.1 Features de la ventana actual
+        X_test_step, _ = get_XGBoost_features(temp_window)
 
-            # 4.2 Generar features de prediccion para ultimo punto - Esto se hace en el punto 2 para el primer step
-            X_test, indices = get_XGBoost_features(current_window)
+        # 3.2 Unir con variables exógenas del step actual
+        X_exog_step = exog_vars_test_df.iloc[[step]]  # DataFrame de 1 fila
+        X_input = pd.concat([X_test_step.iloc[[-1]], X_exog_step], axis=1)
 
-            # 4.3 Tomar solo la última fila (simula día actual)
-            X_test_last = X_test.iloc[[-1]]
+        X_input = X_input.apply(lambda col: pd.to_numeric(col, errors='coerce') if col.dtype == 'object' else col)
 
-        # 4.4 Predecir valor futuro
-        y_pred = reg.predict(X_test_last)[0]
-
-        # 4.5 Guardar la predicción
+        # 3.3 Predecir
+        y_pred = reg.predict(X_input)[0]
         predictions.append(y_pred)
 
-        # 4.6 Añadir la predicción al conjunto para usar como lag en próximos pasos
-        temp_target_var.append(y_pred)
+        # 3.4 Actualizar ventana
+        temp_window.append(y_pred)
+        temp_window = temp_window[-N_train:]  # Mantener siempre tamaño N_train
+
 
     return predictions
