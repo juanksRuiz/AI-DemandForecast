@@ -1,28 +1,28 @@
 # AI-DemandForecast
 
-Predicción de demanda y análisis exploratorio para optimización de inventarios en pequeños negocios.
+Demand prediction and exploratory analysis for inventory optimization in small businesses.
 
-Este proyecto busca ayudar a negocios pequeños, especialmente informales o familiares, a tomar mejores decisiones de compra mediante modelos de predicción de demanda. El objetivo es reducir el exceso o faltante de stock, mejorar la rentabilidad y disminuir el desperdicio de productos.
-
----
-
-## 🎯 Propósito del proyecto
-
-En pequeños negocios de Colombia (tiendas de barrio), la gestión del inventario se hace de forma intuitiva y sin datos. Este proyecto surge como una solución basada en datos para:
-- Ofrecer predicciones de demanda simples pero accionables.
-- Explorar patrones históricos de consumo y estacionalidad.
-- Empoderar a pequeños comerciantes con herramientas de IA accesibles.
+This project aims to help small businesses, especially informal or family-owned ones, make better purchasing decisions through demand prediction models. The goal is to reduce excess or shortage of stock, improve profitability, and decrease product waste.
 
 ---
 
-## 📊 ¿Qué hace hasta ahora?
+## 🎯 Project Purpose
 
-- Entrena modelos de predicción de demanda con **XGBoost**.
-- Permite análisis exploratorio con identificación de estacionalidad, outliers y tendencia (disponible en notebooks).
+In small businesses in Colombia (neighborhood stores), inventory management is done intuitively and without data. This project emerges as a data-based solution to:
+- Offer simple but actionable demand predictions.
+- Explore historical consumption patterns and seasonality.
+- Empower small merchants with accessible AI tools.
 
 ---
 
-## ⚙️ Tecnologías utilizadas
+## 📊 What does it do so far?
+
+- Trains demand prediction models with **XGBoost**.
+- Allows exploratory analysis with identification of seasonality, outliers, and trends (available in notebooks).
+
+---
+
+## ⚙️ Technologies used
 
 - Python
 - Pandas
@@ -31,23 +31,23 @@ En pequeños negocios de Colombia (tiendas de barrio), la gestión del inventari
 
 ---
 
-## 🔨 Estado del proyecto
+## 🔨 Project Status
 
-- ✅ Modelo inicial XGBoost (validacion de modelo con CV en construccion 🚧)
-- 🚧 EDA completo con análisis de tendencia, estacionalidad y outliers
-
----
-
-## ⏭️ Próximos pasos
-
-- [ ] Comparar modelos y resndimiento
-- [ ] Conectar FastAPI con una interfaz para usuarios no técnicos
-- [ ] Validar la solución en comercios reales
+- ✅ Initial XGBoost model (model validation with CV under construction 🚧)
+- 🚧 Complete EDA with trend analysis, seasonality, and outliers
 
 ---
 
-## 🤝 Contribuye o da feedback
-Este proyecto está abierto a colaboración, validación y mejora. Si te interesa aportar en modelado, diseño de interfaces o pruebas reales, contáctame:
+## ⏭️ Next Steps
+
+- [ ] Compare models and performance
+- [ ] Connect FastAPI with an interface for non-technical users
+- [ ] Validate the solution in real businesses
+
+---
+
+## 🤝 Contribute or give feedback
+This project is open to collaboration, validation, and improvement. If you're interested in contributing to modeling, interface design, or real-world testing, contact me:
 
 📧 juankruizo10@gmail.com  
 🔗 [LinkedIn](https://www.linkedin.com/in/juan-camilo-ruiz-ortiz/)  
