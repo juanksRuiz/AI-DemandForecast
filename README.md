@@ -50,5 +50,5 @@ En pequeños negocios de Colombia (tiendas de barrio), la gestión del inventari
 Este proyecto está abierto a colaboración, validación y mejora. Si te interesa aportar en modelado, diseño de interfaces o pruebas reales, contáctame:
 
 📧 juankruizo10@gmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/tu-usuario-linkedin/)  
-🐙 [GitHub](https://github.com/juankruizo)
+🔗 [LinkedIn](https://www.linkedin.com/in/juan-camilo-ruiz-ortiz/)  
+🐙 [GitHub](https://github.com/juanksRuiz)
