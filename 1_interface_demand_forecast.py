@@ -52,10 +52,10 @@ iforecast = st.date_input(
     value=datetime.today().date()  + pd.Timedelta(days=1)
 )
 
-if pd.Timestamp(iforecast) > pd.Timestamp(max_date):
-    st.write("Fecha ingresada correctamente")
-else:
-    st.write("ERROR: Asegurate de ingresar una fecha maxima de prediccion mayor a la ultima fecha ingresada")
+#if pd.Timestamp(iforecast) > pd.Timestamp(max_date):
+#    st.write("Fecha ingresada correctamente")
+#else:
+#    st.write("ERROR: Asegurate de ingresar una fecha maxima de prediccion mayor a la ultima fecha ingresada")
 # -----------------------------------------------------------------------------
 
 # Boton para prediccion:
@@ -96,7 +96,9 @@ if st.button("Estimar demanda"):
         'valor': list(df[target_col]) + list(predicciones),
         'tipo': (['Real'] * len(df)) + (['Predicción'] * len(predicciones))
     })
-    
+
+
+    # Tomar los ultimos 30 dias de la grafica
     grafica_df['valor'] = grafica_df['valor'].astype(int)
 
     # Configurarlo para que Streamlit lo entienda
