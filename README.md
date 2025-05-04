@@ -33,17 +33,36 @@ In small businesses in Colombia (neighborhood stores), inventory management is d
 
 ## 🔨 Project Status
 
-- ✅ Initial XGBoost model (model validation with CV under construction 🚧)
-- 🚧 Complete EDA with trend analysis, seasonality, and outliers
+- ✅ Initial XGBoost model
+- ✅ Complete EDA with trend analysis, seasonality, and outliers
 
+---
+## 📁 Project Structure
+
+- `1_interface_demand_forecast.py`: Main file containing the Streamlit interface for the application.
+- `models/utility_funcs.py`: Contains helper functions and the XGBoost model implementation.
+
+## 🚀 How to Run the Application
+
+1. Create a virtual environment:
+   - Windows: `python -m venv ai-forecast`
+   - Linux/Mac: `python3 -m venv ai-forecast`
+
+2. Activate the virtual environment:
+   - Windows: `ai-forecast\Scripts\activate`
+   - Linux/Mac: `source ai-forecast/bin/activate`
+
+3. Install dependencies from `requirements.txt`
+4. Run the application with Streamlit: `streamlit run 1_interface_demand_forecast.py`
+5. The application will automatically open in your default browser. If not, navigate to the URL shown in the terminal (typically http://localhost:8501).
 ---
 
 ## ⏭️ Next Steps
 
-- [ ] Compare models and performance
+- [ ] Compare performance with different models
 - [ ] Connect FastAPI with an interface for non-technical users
 - [ ] Validate the solution in real businesses
-
+- [ ] Add more features to a more robust MVP
 ---
 
 ## 🤝 Contribute or give feedback
