@@ -1,0 +1,8 @@
+# Entorno virtual
+ai-forecast/
+venv/
+env/
+.env/
+
+# Datos privados
+Datos/
