@@ -1,61 +1,54 @@
 # AI-DemandForecast
 
-Predicción de demanda y análisis exploratorio para optimización de inventarios en pequeños negocios.
+Demand prediction and exploratory analysis for inventory optimization in small businesses.
 
-Este proyecto busca ayudar a negocios pequeños —especialmente informales o familiares— a tomar mejores decisiones de compra mediante modelos de predicción de demanda. El objetivo es reducir el exceso o faltante de stock, mejorar la rentabilidad y disminuir el desperdicio de productos.
-
----
-
-## 🎯 Propósito del proyecto
-
-En muchas regiones como Colombia, la gestión del inventario se hace de forma intuitiva y sin datos. Este proyecto surge como una solución basada en datos para:
-- Ofrecer predicciones de demanda simples pero accionables.
-- Explorar patrones históricos de consumo y estacionalidad.
-- Empoderar a pequeños comerciantes con herramientas de IA accesibles.
+This project aims to help small businesses, especially informal or family-owned ones, make better purchasing decisions through demand prediction models. The goal is to reduce excess or shortage of stock, improve profitability, and decrease product waste.
 
 ---
 
-## 📊 ¿Qué hace hasta ahora?
+## 🎯 Project Purpose
 
-- Entrena modelos de predicción de demanda con **XGBoost** y **SARIMAX**.
-- Permite análisis exploratorio con identificación de estacionalidad, outliers y tendencia (disponible en notebooks).
-- Implementa una **API con FastAPI (en desarrollo)** para servir predicciones de forma programática.
-- Incluye un archivo **Dockerfile** para encapsular el entorno y facilitar despliegues futuros.
-
----
-
-## ⚙️ Tecnologías utilizadas
-
-- Python (Pandas, Scikit-learn, Statsmodels, XGBoost)
-- FastAPI (en desarrollo)
-- Docker (configurado para facilitar el despliegue)
-- Notebooks Jupyter para análisis EDA
+In small businesses in Colombia (neighborhood stores), inventory management is done intuitively and without data. This project emerges as a data-based solution to:
+- Offer simple but actionable demand predictions.
+- Explore historical consumption patterns and seasonality.
+- Empower small merchants with accessible AI tools.
 
 ---
 
-## 🔨 Estado del proyecto
+## 📊 What does it do so far?
 
-- ✅ EDA completo con análisis de tendencia, estacionalidad y outliers
-- ✅ Modelos iniciales XGBoost y SARIMAX entrenados (en etapa de validación)
-- 🚧 FastAPI en desarrollo
-- 🚧 Preparación de pruebas con datos simulados y sintéticos
-- 🚧 Definición de MVP para integración web ligera
+- Trains demand prediction models with **XGBoost**.
+- Allows exploratory analysis with identification of seasonality, outliers, and trends (available in notebooks).
 
 ---
 
-## ⏭️ Próximos pasos
+## ⚙️ Technologies used
 
-- [ ] Afinar modelos y comparar rendimiento
-- [ ] Implementar prototipo web básico (Streamlit o Gradio)
-- [ ] Conectar FastAPI con una interfaz para usuarios no técnicos
-- [ ] Validar la solución en comercios reales
-- [ ] Documentar el flujo completo de entrada/salida para facilitar contribuciones
+- Python
+- Pandas
+- Streamlit
+- XGBoost
 
 ---
 
-## 🤝 Contribuye o da feedback
+## 🔨 Project Status
 
-Este proyecto está abierto a colaboración, validación y mejora. Si te interesa aportar en modelado, diseño de interfaces o pruebas reales, contáctame:
+- ✅ Initial XGBoost model (model validation with CV under construction 🚧)
+- 🚧 Complete EDA with trend analysis, seasonality, and outliers
+
+---
+
+## ⏭️ Next Steps
+
+- [ ] Compare models and performance
+- [ ] Connect FastAPI with an interface for non-technical users
+- [ ] Validate the solution in real businesses
+
+---
+
+## 🤝 Contribute or give feedback
+This project is open to collaboration, validation, and improvement. If you're interested in contributing to modeling, interface design, or real-world testing, contact me:
 
 📧 juankruizo10@gmail.com  
-📍 Bogotá, Colombia
+🔗 [LinkedIn](https://www.linkedin.com/in/juan-camilo-ruiz-ortiz/)  
+🐙 [GitHub](https://github.com/juanksRuiz)
