@@ -1,11 +1,3 @@
-# ---- Pruebas a validar ----
-# 1. Reconocimiento de archivo subido - check
-# 2. Visualizacion de tabla - check
-# 3. Fechas hasta la cual predecir estrictamente mayor a la fecha maxima pasada
-# 4. Boton de predecir
-# 5. Si prediccion satisfactoria graficar datos de entrenamiento y de test en colores diferentes
-
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -13,12 +5,7 @@ import joblib
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-import pickle
-import os
 from model.utility_funcs import *
-
-from sklearn.linear_model import LinearRegression
-
 
 # ----- Streamlit App -----
 st.set_page_config(page_title="Predicción de Demanda", layout="wide")
